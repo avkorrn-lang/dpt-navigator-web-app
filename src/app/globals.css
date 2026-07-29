@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+
+  --color-paper: #f4f1e8;
+  --color-cream: #faf7ef;
+  --color-card: #fffdf7;
+  --color-ink: #21261f;
+  --color-mist: #666e5c;
+  --color-line: #e3dcc9;
+  --color-line-strong: #d2cab2;
+  --color-pine: #1e6e60;
+  --color-pine-deep: #15564b;
+  --color-pine-soft: #e8f2ed;
+  --color-ember: #c2542c;
+  --color-ember-soft: #fbece4;
+  --color-gold: #b07e28;
+  --color-gold-soft: #f6efdd;
+
+  --shadow-card: 0 1px 2px rgba(33, 38, 31, 0.05), 0 10px 30px -12px rgba(33, 38, 31, 0.12);
+  --shadow-lift: 0 2px 4px rgba(33, 38, 31, 0.06), 0 18px 44px -14px rgba(33, 38, 31, 0.2);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+  ::selection {
+    background: rgba(30, 110, 96, 0.2);
+  }
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer utilities {
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  .shadow-lift {
+    box-shadow: var(--shadow-lift);
+  }
+}
+
+/* Индивидуальный слайдер интенсивности */
+input[type="range"].dbt-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+  border: 1px solid rgba(33, 38, 31, 0.08);
+}
+input[type="range"].dbt-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #fffdf7;
+  border: 3px solid var(--thumb, #1e6e60);
+  box-shadow: 0 3px 12px rgba(33, 38, 31, 0.28);
+  transition: transform 0.15s ease;
+}
+input[type="range"].dbt-range::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+input[type="range"].dbt-range::-moz-range-thumb {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #fffdf7;
+  border: 3px solid var(--thumb, #1e6e60);
+  box-shadow: 0 3px 12px rgba(33, 38, 31, 0.28);
+}
+input[type="range"].dbt-range::-moz-range-track {
+  background: transparent;
+}
+
+/* Тонкие скроллбары */
+.nice-scroll::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.nice-scroll::-webkit-scrollbar-thumb {
+  background: rgba(33, 38, 31, 0.15);
+  border-radius: 999px;
+}
