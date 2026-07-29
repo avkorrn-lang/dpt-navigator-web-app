@@ -124,18 +124,18 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
   anger: {
     skills: {
       impulsive: {
-        // изменён порядок: противоположное действие первым
+        // индивидуальные: opposite_action, check_facts, problem_solving; социальные: validate, dear_man
         low: ['opposite_action', 'check_facts', 'problem_solving', 'validate', 'dear_man'],
         medium: ['stop', 'opposite_action', 'tipp', 'check_facts', 'radical_acceptance'],
         high: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
       },
       hypercontrol: {
-        // низкая: противоположное действие первым
+        // индивидуальные: opposite_action, radical_openness, self_enquiry, check_facts; социальные: give
         low: ['opposite_action', 'radical_openness', 'self_enquiry', 'check_facts', 'give'],
-        // средняя: осознанность без планирования первым
+        // индивидуальные: participate_without_planning, sage, opposite_action, problem_solving; социальные: validate
         medium: ['participate_without_planning', 'sage', 'opposite_action', 'problem_solving', 'validate'],
-        // высокая: STOP первым
-        high: ['stop', 'big_three_plus_1', 'reveals', 'tipp', 'radical_acceptance'],
+        // индивидуальные: stop, tipp, radical_acceptance; социальные: big_three_plus_1, reveals
+        high: ['stop', 'tipp', 'radical_acceptance', 'big_three_plus_1', 'reveals'],
       },
     },
     subtype_notes: {
@@ -150,18 +150,18 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
   fear_anxiety: {
     skills: {
       impulsive: {
-        // низкая: противоположное действие первым
+        // индивидуальные: opposite_action, check_facts, cope_ahead, observe
         low: ['opposite_action', 'check_facts', 'cope_ahead', 'observe'],
         medium: ['opposite_action', 'tipp', 'cope_ahead', 'accepts', 'radical_acceptance'],
         high: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
       },
       hypercontrol: {
-        // низкая: осознанность без планирования первым
+        // индивидуальные: participate_without_planning, radical_openness, check_facts, opposite_action; социальные: loving_kindness
         low: ['participate_without_planning', 'radical_openness', 'check_facts', 'opposite_action', 'loving_kindness'],
-        // средняя: большая тройка +1 первым
-        medium: ['big_three_plus_1', 'adopts', 'opposite_action', 'problem_solving', 'validate'],
-        // высокая: STOP первым
-        high: ['stop', 'varies', 'loving_kindness', 'tipp', 'radical_acceptance'],
+        // индивидуальные: opposite_action, problem_solving, validate; социальные: big_three_plus_1, adopts
+        medium: ['opposite_action', 'problem_solving', 'validate', 'big_three_plus_1', 'adopts'],
+        // индивидуальные: stop, tipp, radical_acceptance, varies; социальные: loving_kindness
+        high: ['stop', 'tipp', 'radical_acceptance', 'varies', 'loving_kindness'],
       },
     },
     subtype_notes: {
@@ -180,12 +180,12 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
         high: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
       },
       hypercontrol: {
-        // низкая: противоположное действие первым
+        // индивидуальные: opposite_action, radical_openness, self_enquiry; социальные: validate
         low: ['opposite_action', 'radical_openness', 'self_enquiry', 'validate'],
-        // средняя: HEART первым
+        // индивидуальные: heart, light, opposite_action; социальные: (нет социальных, но оставляем radical_acceptance как индивидуальный)
         medium: ['heart', 'light', 'opposite_action', 'radical_acceptance'],
-        // высокая: противоположное действие первым
-        high: ['opposite_action', 'allows', 'loving_kindness', 'radical_acceptance'],
+        // индивидуальные: opposite_action, radical_acceptance; социальные: allows, loving_kindness
+        high: ['opposite_action', 'radical_acceptance', 'allows', 'loving_kindness'],
       },
     },
     subtype_notes: {
@@ -199,17 +199,17 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
   shame: {
     skills: {
       impulsive: {
-        // низкая: валидация первым
+        // индивидуальные: validate, check_facts, opposite_action; социальные: fast
         low: ['validate', 'check_facts', 'opposite_action', 'fast'],
         medium: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'nonjudgmental'],
         high: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
       },
       hypercontrol: {
-        // низкая: SAGE первым
+        // индивидуальные: sage, radical_openness, opposite_action; социальные: validate
         low: ['sage', 'radical_openness', 'opposite_action', 'validate'],
-        // средняя: медитация любящей доброты первым
-        medium: ['loving_kindness', 'rocks_on', 'radical_acceptance', 'opposite_action'],
-        // высокая: радикальное принятие первым
+        // индивидуальные: loving_kindness, radical_acceptance, opposite_action; социальные: rocks_on
+        medium: ['loving_kindness', 'radical_acceptance', 'opposite_action', 'rocks_on'],
+        // индивидуальные: radical_acceptance, deep, big_three_plus_1; социальные: loving_kindness
         high: ['radical_acceptance', 'deep', 'big_three_plus_1', 'loving_kindness'],
       },
     },
@@ -221,17 +221,18 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
   guilt: {
     skills: {
       impulsive: {
-        // низкая: решение проблем первым
+        // индивидуальные: problem_solving, check_facts, opposite_action; социальные: validate
         low: ['problem_solving', 'check_facts', 'opposite_action', 'validate'],
         medium: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'give'],
         high: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
       },
       hypercontrol: {
-        // низкая: PROVE первым
+        // индивидуальные: prove, radical_openness, check_facts, problem_solving
         low: ['prove', 'radical_openness', 'check_facts', 'problem_solving'],
-        medium: ['heart', 'reveals', 'radical_acceptance', 'opposite_action'],
-        // высокая: медитация любящей доброты первым
-        high: ['loving_kindness', 'dares', 'radical_acceptance'],
+        // индивидуальные: heart, radical_acceptance, opposite_action; социальные: reveals
+        medium: ['heart', 'radical_acceptance', 'opposite_action', 'reveals'],
+        // индивидуальные: loving_kindness, radical_acceptance; социальные: dares
+        high: ['loving_kindness', 'radical_acceptance', 'dares'],
       },
     },
     subtype_notes: {
@@ -242,17 +243,18 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
   envy_jealousy: {
     skills: {
       impulsive: {
-        // низкая: противоположное действие первым
+        // индивидуальные: opposite_action, check_facts, problem_solving, wise_mind
         low: ['opposite_action', 'check_facts', 'problem_solving', 'wise_mind'],
         medium: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'dear_man'],
         high: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
       },
       hypercontrol: {
-        low: ['dares', 'radical_openness', 'opposite_action', 'validate'], // без изменений
-        // средняя: LIGHT первым
-        medium: ['light', 'rocks_on', 'opposite_action', 'radical_acceptance'],
-        // высокая: STOP первым
-        high: ['stop', 'match_plus_1', 'loving_kindness', 'radical_acceptance'],
+        // индивидуальные: dares, radical_openness, opposite_action; социальные: validate
+        low: ['dares', 'radical_openness', 'opposite_action', 'validate'],
+        // индивидуальные: light, opposite_action, radical_acceptance; социальные: rocks_on
+        medium: ['light', 'opposite_action', 'radical_acceptance', 'rocks_on'],
+        // индивидуальные: stop, radical_acceptance; социальные: match_plus_1, loving_kindness
+        high: ['stop', 'radical_acceptance', 'match_plus_1', 'loving_kindness'],
       },
     },
     subtype_notes: {
@@ -265,16 +267,18 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
   disgust_contempt: {
     skills: {
       impulsive: {
-        // низкая: противоположное действие первым
+        // индивидуальные: opposite_action, check_facts; социальные: dear_man
         low: ['opposite_action', 'check_facts', 'dear_man'],
         medium: ['opposite_action', 'radical_acceptance', 'problem_solving'],
         high: ['stop', 'tipp', 'accepts', 'radical_acceptance'],
       },
       hypercontrol: {
-        // низкая: противоположное действие первым
+        // индивидуальные: opposite_action, radical_openness, adopts; социальные: validate
         low: ['opposite_action', 'radical_openness', 'adopts', 'validate'],
+        // индивидуальные: allows, participate_without_planning, opposite_action, radical_acceptance
         medium: ['allows', 'participate_without_planning', 'opposite_action', 'radical_acceptance'],
-        high: ['rocks_on', 'big_three_plus_1', 'stop', 'radical_acceptance'],
+        // индивидуальные: stop, radical_acceptance; социальные: rocks_on, big_three_plus_1
+        high: ['stop', 'radical_acceptance', 'rocks_on', 'big_three_plus_1'],
       },
     },
     subtype_notes: {
