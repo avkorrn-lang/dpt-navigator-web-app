@@ -130,12 +130,12 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
         high: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
       },
       hypercontrol: {
-        // индивидуальные: opposite_action, radical_openness, self_enquiry, check_facts; социальные: give
-        low: ['opposite_action', 'radical_openness', 'self_enquiry', 'check_facts', 'give'],
-        // индивидуальные: participate_without_planning, sage, opposite_action, problem_solving; социальные: validate
-        medium: ['participate_without_planning', 'sage', 'opposite_action', 'problem_solving', 'validate'],
-        // индивидуальные: stop, tipp, radical_acceptance; социальные: big_three_plus_1, reveals
-        high: ['stop', 'tipp', 'radical_acceptance', 'big_three_plus_1', 'reveals'],
+        // индивидуальные: opposite_action, check_facts, radical_openness, self_enquiry; социальные: give
+        low: ['opposite_action', 'check_facts', 'radical_openness', 'self_enquiry', 'give'],
+        // индивидуальные: participate_without_planning, opposite_action, problem_solving, check_facts; социальные: validate
+        medium: ['participate_without_planning', 'opposite_action', 'problem_solving', 'check_facts', 'validate'],
+        // индивидуальные: stop, tipp, radical_acceptance, self_soothe; социальные: big_three_plus_1
+        high: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'big_three_plus_1'],
       },
     },
     subtype_notes: {
@@ -156,12 +156,12 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
         high: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
       },
       hypercontrol: {
-        // индивидуальные: participate_without_planning, radical_openness, check_facts, opposite_action; социальные: loving_kindness
-        low: ['participate_without_planning', 'radical_openness', 'check_facts', 'opposite_action', 'loving_kindness'],
-        // индивидуальные: opposite_action, problem_solving, validate; социальные: big_three_plus_1, adopts
-        medium: ['opposite_action', 'problem_solving', 'validate', 'big_three_plus_1', 'adopts'],
-        // индивидуальные: stop, tipp, radical_acceptance, varies; социальные: loving_kindness
-        high: ['stop', 'tipp', 'radical_acceptance', 'varies', 'loving_kindness'],
+        // индивидуальные: participate_without_planning, self_enquiry, check_facts, opposite_action; социальные: (убрали loving_kindness)
+        low: ['participate_without_planning', 'self_enquiry', 'check_facts', 'opposite_action'],
+        // индивидуальные: opposite_action, problem_solving, validate, varies; социальные: big_three_plus_1
+        medium: ['opposite_action', 'problem_solving', 'validate', 'varies', 'big_three_plus_1'],
+        // индивидуальные: stop, tipp, radical_acceptance, self_soothe; социальные: (убрали loving_kindness)
+        high: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'varies'],
       },
     },
     subtype_notes: {
@@ -182,10 +182,10 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
       hypercontrol: {
         // индивидуальные: opposite_action, radical_openness, self_enquiry; социальные: validate
         low: ['opposite_action', 'radical_openness', 'self_enquiry', 'validate'],
-        // индивидуальные: heart, light, opposite_action; социальные: (нет социальных, но оставляем radical_acceptance как индивидуальный)
+        // индивидуальные: heart, light, opposite_action, radical_acceptance
         medium: ['heart', 'light', 'opposite_action', 'radical_acceptance'],
-        // индивидуальные: opposite_action, radical_acceptance; социальные: allows, loving_kindness
-        high: ['opposite_action', 'radical_acceptance', 'allows', 'loving_kindness'],
+        // индивидуальные: opposite_action, radical_acceptance, self_soothe; социальные: allows, loving_kindness
+        high: ['opposite_action', 'radical_acceptance', 'self_soothe', 'allows', 'loving_kindness'],
       },
     },
     subtype_notes: {
@@ -207,8 +207,8 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
       hypercontrol: {
         // индивидуальные: sage, radical_openness, opposite_action; социальные: validate
         low: ['sage', 'radical_openness', 'opposite_action', 'validate'],
-        // индивидуальные: loving_kindness, radical_acceptance, opposite_action; социальные: rocks_on
-        medium: ['loving_kindness', 'radical_acceptance', 'opposite_action', 'rocks_on'],
+        // индивидуальные: loving_kindness, radical_acceptance, opposite_action, heart; социальные: rocks_on
+        medium: ['loving_kindness', 'radical_acceptance', 'opposite_action', 'heart', 'rocks_on'],
         // индивидуальные: radical_acceptance, deep, big_three_plus_1; социальные: loving_kindness
         high: ['radical_acceptance', 'deep', 'big_three_plus_1', 'loving_kindness'],
       },
@@ -251,10 +251,10 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
       hypercontrol: {
         // индивидуальные: dares, radical_openness, opposite_action; социальные: validate
         low: ['dares', 'radical_openness', 'opposite_action', 'validate'],
-        // индивидуальные: light, opposite_action, radical_acceptance; социальные: rocks_on
-        medium: ['light', 'opposite_action', 'radical_acceptance', 'rocks_on'],
-        // индивидуальные: stop, radical_acceptance; социальные: match_plus_1, loving_kindness
-        high: ['stop', 'radical_acceptance', 'match_plus_1', 'loving_kindness'],
+        // индивидуальные: light, opposite_action, radical_acceptance, heart; социальные: rocks_on
+        medium: ['light', 'opposite_action', 'radical_acceptance', 'heart', 'rocks_on'],
+        // индивидуальные: stop, radical_acceptance, loving_kindness; социальные: match_plus_1
+        high: ['stop', 'radical_acceptance', 'loving_kindness', 'match_plus_1'],
       },
     },
     subtype_notes: {
@@ -273,12 +273,12 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
         high: ['stop', 'tipp', 'accepts', 'radical_acceptance'],
       },
       hypercontrol: {
-        // индивидуальные: opposite_action, radical_openness, adopts; социальные: validate
-        low: ['opposite_action', 'radical_openness', 'adopts', 'validate'],
-        // индивидуальные: allows, participate_without_planning, opposite_action, radical_acceptance
-        medium: ['allows', 'participate_without_planning', 'opposite_action', 'radical_acceptance'],
-        // индивидуальные: stop, radical_acceptance; социальные: rocks_on, big_three_plus_1
-        high: ['stop', 'radical_acceptance', 'rocks_on', 'big_three_plus_1'],
+        // индивидуальные: opposite_action, check_facts, radical_openness; социальные: validate
+        low: ['opposite_action', 'check_facts', 'radical_openness', 'validate'],
+        // индивидуальные: participate_without_planning, opposite_action, radical_acceptance, check_facts
+        medium: ['participate_without_planning', 'opposite_action', 'radical_acceptance', 'check_facts'],
+        // индивидуальные: stop, tipp, radical_acceptance, self_soothe; социальные: big_three_plus_1
+        high: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'big_three_plus_1'],
       },
     },
     subtype_notes: {
