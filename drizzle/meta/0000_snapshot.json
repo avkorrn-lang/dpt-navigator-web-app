@@ -1,0 +1,264 @@
+{
+  "id": "9742ab07-8df6-4233-8291-837b8c3dc3db",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.entries": {
+      "name": "entries",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_key": {
+          "name": "user_key",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "emotion": {
+          "name": "emotion",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subtype": {
+          "name": "subtype",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "intensity": {
+          "name": "intensity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "crisis": {
+          "name": "crisis",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "level": {
+          "name": "level",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "skills": {
+          "name": "skills",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "entries_user_idx": {
+          "name": "entries_user_idx",
+          "columns": [
+            {
+              "expression": "user_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.profiles": {
+      "name": "profiles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_key": {
+          "name": "user_key",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "profile_type": {
+          "name": "profile_type",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "impulsive_score": {
+          "name": "impulsive_score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "hypercontrol_score": {
+          "name": "hypercontrol_score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "profiles_user_key_unique": {
+          "name": "profiles_user_key_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "user_key"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.skill_logs": {
+      "name": "skill_logs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "entry_id": {
+          "name": "entry_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_key": {
+          "name": "user_key",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "skill_id": {
+          "name": "skill_id",
+          "type": "varchar(60)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "done": {
+          "name": "done",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "note": {
+          "name": "note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "skill_logs_entry_skill": {
+          "name": "skill_logs_entry_skill",
+          "columns": [
+            {
+              "expression": "entry_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "skill_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "skill_logs_entry_id_entries_id_fk": {
+          "name": "skill_logs_entry_id_entries_id_fk",
+          "tableFrom": "skill_logs",
+          "tableTo": "entries",
+          "columnsFrom": [
+            "entry_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

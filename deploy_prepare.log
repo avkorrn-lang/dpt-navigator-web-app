@@ -1,0 +1,48 @@
+============================================== 
+  Подготовка к деплою — 29.07.2026 12:32:40,65 
+============================================== 
+ 
+"Запуск скрипта подготовки к деплою..." 
+"Текущая папка: D:\dpt-navigator-web-app-specification" 
+"Проверка Node.js..." 
+"OK: Node.js найден" 
+"Проверка npm..." 
+"OK: npm найден" 
+"Создание .env файла..." 
+"OK: .env создан" 
+"Установка зависимостей (npm install)..." 
+npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.hirok.io
+npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.hirok.io
+
+added 392 packages, and audited 393 packages in 2m
+
+146 packages are looking for funding
+  run `npm fund` for details
+
+16 vulnerabilities (4 moderate, 12 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+npm warn allow-scripts 5 packages have install scripts not yet covered by allowScripts:
+npm warn allow-scripts   esbuild@0.25.12 (postinstall: node install.js)
+npm warn allow-scripts   esbuild@0.18.20 (postinstall: node install.js)
+npm warn allow-scripts   unrs-resolver@1.12.2 (postinstall: node postinstall.js)
+npm warn allow-scripts   sharp@0.34.5 (install: node install/check.js || npm run build)
+npm warn allow-scripts   esbuild@0.28.1 (postinstall: node install.js)
+npm warn allow-scripts
+npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+"OK: зависимости установлены" 
+"Генерация миграций..." 
+No config path provided, using default 'drizzle.config.json'
+Reading config file 'D:\dpt-navigator-web-app-specification\drizzle.config.json'
+3 tables
+entries 9 columns 1 indexes 0 fks
+profiles 6 columns 0 indexes 0 fks
+skill_logs 7 columns 1 indexes 1 fks
+
+[✓] Your SQL migration file ➜ drizzle\0000_flippant_cloak.sql 🚀
