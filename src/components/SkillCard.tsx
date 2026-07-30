@@ -47,7 +47,7 @@ export default function SkillCard({ skill, num, state, disabled, onToggle, onSav
       )}
     >
       <div className="flex flex-col flex-1 p-4 sm:p-5">
-        {/* Шапка карточки */}
+        {/* Шапка карточки — без кнопки */}
         <div className="flex items-start gap-3.5">
           <span
             className={clsx(
@@ -58,29 +58,9 @@ export default function SkillCard({ skill, num, state, disabled, onToggle, onSav
             {state.done ? <Check size={16} strokeWidth={3} /> : num}
           </span>
           <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="font-display text-[17px] leading-snug font-bold sm:text-lg">
-                {skill.name}
-              </h3>
-              <button
-                type="button"
-                onClick={onToggle}
-                disabled={disabled}
-                aria-pressed={state.done}
-                className={clsx(
-                  'inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-xs font-bold transition-all active:scale-95 sm:px-3',
-                  state.done
-                    ? 'border-pine bg-pine text-white'
-                    : 'border-line-strong bg-card text-ink/70 hover:border-pine hover:text-pine-deep',
-                  disabled && 'opacity-50',
-                )}
-              >
-                <Check size={14} strokeWidth={3} />
-                <span className="hidden sm:inline">
-                  {state.done ? 'Выполнено' : 'Отметить'}
-                </span>
-              </button>
-            </div>
+            <h3 className="font-display text-[17px] leading-snug font-bold sm:text-lg">
+              {skill.name}
+            </h3>
             <div className="mt-1.5 flex flex-wrap gap-1.5">
               <span className="rounded-full border border-line bg-cream px-2 py-0.5 text-[11px] font-semibold text-mist">
                 {MODULE_LABELS[skill.module]}
@@ -98,41 +78,9 @@ export default function SkillCard({ skill, num, state, disabled, onToggle, onSav
         </div>
 
         {/* Описание */}
-        <p className="mt-3 flex-1 text-[13px] leading-relaxed text-ink/75 sm:text-[13.5px]">
+        <p className="mt-3 flex-1 text-[13px] leading-relaxed text-ink/75 sm:text-[13.5px] line-clamp-3">
           {skill.desc}
         </p>
-
-        {/* Действия */}
-        <div className="mt-3.5 flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            className="inline-flex cursor-pointer items-center gap-1.5 rounded-full bg-ink/[0.05] px-3 py-1.5 text-xs font-bold text-ink/75 transition-colors hover:bg-ink/[0.09]"
-          >
-            <ListChecks size={14} strokeWidth={2.4} />
-            <span className="hidden sm:inline">Как применять · {skill.steps.length} шага</span>
-            <span className="sm:hidden">{skill.steps.length}</span>
-            <ChevronDown
-              size={14}
-              className={clsx('transition-transform duration-300', open && 'rotate-180')}
-            />
-          </button>
-          <button
-            type="button"
-            onClick={() => setNoteOpen((v) => !v)}
-            aria-expanded={noteOpen}
-            className={clsx(
-              'inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition-colors',
-              state.note
-                ? 'bg-gold-soft text-gold'
-                : 'bg-ink/[0.05] text-ink/75 hover:bg-ink/[0.09]',
-            )}
-          >
-            <NotebookPen size={14} strokeWidth={2.4} />
-            {state.note ? 'Заметка ✓' : 'Заметка'}
-          </button>
-        </div>
 
         {/* Шаги */}
         <AnimatePresence initial={false}>
@@ -195,6 +143,55 @@ export default function SkillCard({ skill, num, state, disabled, onToggle, onSav
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Нижняя строка: Подробнее, Заметка, Выполнено */}
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-line pt-3.5">
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              className="inline-flex cursor-pointer items-center gap-1.5 rounded-full bg-ink/[0.05] px-3 py-1.5 text-xs font-bold text-ink/75 transition-colors hover:bg-ink/[0.09]"
+            >
+              <ListChecks size={14} strokeWidth={2.4} />
+              <span>Подробнее</span>
+              <ChevronDown
+                size={14}
+                className={clsx('transition-transform duration-300', open && 'rotate-180')}
+              />
+            </button>
+            <button
+              type="button"
+              onClick={() => setNoteOpen((v) => !v)}
+              aria-expanded={noteOpen}
+              className={clsx(
+                'inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition-colors',
+                state.note
+                  ? 'bg-gold-soft text-gold'
+                  : 'bg-ink/[0.05] text-ink/75 hover:bg-ink/[0.09]',
+              )}
+            >
+              <NotebookPen size={14} strokeWidth={2.4} />
+              {state.note ? 'Заметка ✓' : 'Заметка'}
+            </button>
+          </div>
+          <button
+            type="button"
+            onClick={onToggle}
+            disabled={disabled}
+            aria-pressed={state.done}
+            className={clsx(
+              'inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-xs font-bold transition-all active:scale-95 sm:px-3',
+              state.done
+                ? 'border-pine bg-pine text-white'
+                : 'border-line-strong bg-card text-ink/70 hover:border-pine hover:text-pine-deep',
+              disabled && 'opacity-50',
+            )}
+          >
+            <Check size={14} strokeWidth={3} />
+            <span className="hidden sm:inline">Выполнено</span>
+          </button>
+        </div>
       </div>
     </motion.div>
   );
