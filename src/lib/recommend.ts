@@ -1,5 +1,5 @@
 // Детерминированный алгоритм подбора навыков по клиническим правилам ДПТ:
-// матрица (эмоция × профиль × интенсивность) + фильтры + якоря осознанности.
+// матрица (эмоция × профиль × подтип × интенсивность) + фильтры + якоря осознанности.
 
 import { MATRIX, intensityToLevel, type IntensityLevel, type ProfileType } from './emotions';
 import { getSkill } from './skills';
@@ -28,7 +28,17 @@ export function recommend(
 
   let ordered: string[] = [];
   if (entry) {
-    ordered = [...(entry.skills[profile]?.[level] ?? [])];
+    // Используем подтип, если он указан, иначе 'none'
+    const subtypeKey = subtypeId ?? 'none';
+    const levelSkills = entry.skills[profile]?.[level];
+    if (levelSkills && levelSkills[subtypeKey]) {
+      ordered = [...levelSkills[subtypeKey]];
+    } else if (levelSkills && levelSkills['none']) {
+      // fallback на 'none', если для данного подтипа нет списка
+      ordered = [...levelSkills['none']];
+    } else {
+      ordered = [];
+    }
   }
 
   // Фильтр 3.3: самоповреждающие мысли — кризисные навыки первыми
