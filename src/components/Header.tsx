@@ -24,7 +24,7 @@ export default function Header() {
         key={item.href}
         href={item.href}
         className={clsx(
-          'inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-semibold transition-colors',
+          'inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-semibold transition-colors whitespace-nowrap',
           active ? 'bg-ink text-cream' : 'text-ink/70 hover:bg-cream hover:text-ink',
         )}
       >
@@ -37,7 +37,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper/90 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3 shrink-0">
           <span className="grid size-9 place-items-center rounded-xl bg-ink text-cream">
             <Compass size={19} strokeWidth={2.2} />
           </span>
@@ -50,8 +50,26 @@ export default function Header() {
         </Link>
         <nav className="hidden items-center gap-1 md:flex">{NAV.map(renderLink)}</nav>
       </div>
-      <nav className="nice-scroll flex gap-1 overflow-x-auto px-4 pb-2.5 md:hidden">
-        {NAV.map(renderLink)}
+      {/* Мобильное меню — уменьшенный шрифт и отступы, чтобы всё влезало в одну строку */}
+      <nav className="nice-scroll flex gap-0.5 overflow-x-auto px-4 pb-2.5 md:hidden">
+        {NAV.map((item) => {
+          const active =
+            item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
+          const Icon = item.icon;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={clsx(
+                'inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap',
+                active ? 'bg-ink text-cream' : 'text-ink/70 hover:bg-cream hover:text-ink',
+              )}
+            >
+              <Icon size={14} strokeWidth={2.2} />
+              <span>{item.label}</span>
+            </Link>
+          );
+        })}
       </nav>
     </header>
   );
