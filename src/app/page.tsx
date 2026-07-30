@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -72,6 +72,9 @@ export default function Page() {
   // Результат
   const [result, setResult] = useState<RecResult | null>(null);
   const [logs, setLogs] = useState<Record<string, SkillLogState>>({});
+
+  // Реф для прокрутки к блоку интенсивности
+  const intensityRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const key = getUserKey();
@@ -199,6 +202,16 @@ export default function Page() {
 
   const profileInfo = profile ? PROFILE_INFO[profile.profileType] : null;
   const emotionMeta = emotion ? EMOTION_MAP[emotion] : null;
+
+  // Обработчик выбора эмоции с автопрокруткой
+  const handleEmotionSelect = (id: string) => {
+    setEmotion(id);
+    setSubtype(null);
+    // Прокручиваем к блоку интенсивности через небольшой таймаут, чтобы DOM успел обновиться
+    setTimeout(() => {
+      intensityRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  };
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
@@ -454,10 +467,7 @@ export default function Page() {
                 return (
                   <button
                     key={e.id}
-                    onClick={() => {
-                      setEmotion(e.id);
-                      setSubtype(null);
-                    }}
+                    onClick={() => handleEmotionSelect(e.id)}
                     aria-pressed={active}
                     className={clsx(
                       'group flex cursor-pointer items-center gap-3 rounded-2xl border bg-card p-3.5 text-left transition-all sm:p-4',
@@ -531,8 +541,9 @@ export default function Page() {
               )}
             </AnimatePresence>
 
-            {/* Шаг 2. Интенсивность */}
+            {/* Шаг 2. Интенсивность — добавлен ref для прокрутки */}
             <div
+              ref={intensityRef}
               className={clsx(
                 'mt-6 rounded-3xl border bg-card p-5 shadow-card transition-opacity sm:p-7',
                 !emotion && 'pointer-events-none opacity-50',
