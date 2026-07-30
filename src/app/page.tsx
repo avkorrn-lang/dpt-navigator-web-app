@@ -73,9 +73,8 @@ export default function Page() {
   const [result, setResult] = useState<RecResult | null>(null);
   const [logs, setLogs] = useState<Record<string, SkillLogState>>({});
 
-  // Реф для блока подтипов (новый)
+  // Реф для блока подтипов
   const subtypeRef = useRef<HTMLDivElement>(null);
-  // Реф для слайдера (оставляем, но прокручивать будем к подтипам)
   const intensityRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -209,7 +208,6 @@ export default function Page() {
   const handleEmotionSelect = (id: string) => {
     setEmotion(id);
     setSubtype(null);
-    // Прокручиваем к блоку подтипов через небольшой таймаут
     setTimeout(() => {
       subtypeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
@@ -498,10 +496,10 @@ export default function Page() {
               })}
             </div>
 
-            {/* Шаг 2. Подтипы — добавляем ref и отступ для прокрутки */}
+            {/* Шаг 2. Подтипы — увеличенный отступ scroll-mt-20 (80px) */}
             <div
               ref={subtypeRef}
-              className="scroll-mt-5"
+              className="scroll-mt-20"
             >
               <AnimatePresence initial={false}>
                 {emotionMeta && (
@@ -548,7 +546,7 @@ export default function Page() {
               </AnimatePresence>
             </div>
 
-            {/* Шаг 3. Интенсивность — оставляем ref, но прокрутка теперь идёт к подтипам */}
+            {/* Шаг 3. Интенсивность */}
             <div
               ref={intensityRef}
               className={clsx(
