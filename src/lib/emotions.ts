@@ -114,19 +114,27 @@ export const EMOTION_MAP: Record<string, EmotionMeta> = Object.fromEntries(
   EMOTIONS.map((e) => [e.id, e]),
 );
 
-// Новая матрица с разбивкой по подтипам (подтип 'none' для случаев без уточнения)
 export const MATRIX: Record<string, EmotionMatrixEntry> = {
   anger: {
     skills: {
       impulsive: {
         low: {
           none: ['check_facts', 'opposite_action', 'problem_solving', 'validate', 'dear_man', 'wise_mind', 'effectively', 'participate'],
+          irritation: ['check_facts', 'problem_solving', 'opposite_action', 'validate', 'wise_mind', 'effectively'],
+          rage: ['stop', 'tipp', 'check_facts', 'opposite_action', 'radical_acceptance'],
+          indignation: ['check_facts', 'opposite_action', 'problem_solving', 'radical_acceptance', 'validate'],
         },
         medium: {
           none: ['stop', 'opposite_action', 'check_facts', 'problem_solving', 'accumulate_positive', 'pros_cons'],
+          irritation: ['check_facts', 'opposite_action', 'problem_solving', 'accumulate_positive', 'pros_cons'],
+          rage: ['stop', 'tipp', 'opposite_action', 'radical_acceptance', 'self_soothe'],
+          indignation: ['stop', 'check_facts', 'opposite_action', 'radical_acceptance', 'problem_solving'],
         },
         high: {
           none: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
+          irritation: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
+          rage: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
+          indignation: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
         },
       },
       hypercontrol: {
@@ -158,12 +166,21 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
       impulsive: {
         low: {
           none: ['opposite_action', 'check_facts', 'cope_ahead', 'observe', 'describe', 'wise_mind', 'effectively'],
+          worry: ['check_facts', 'opposite_action', 'cope_ahead', 'observe', 'describe', 'wise_mind'],
+          panic: ['stop', 'tipp', 'opposite_action', 'radical_acceptance', 'self_soothe'],
+          dread: ['radical_acceptance', 'opposite_action', 'check_facts', 'self_soothe', 'wise_mind'],
         },
         medium: {
           none: ['opposite_action', 'check_facts', 'cope_ahead', 'accumulate_positive', 'radical_acceptance', 'one_mindfully'],
+          worry: ['opposite_action', 'check_facts', 'cope_ahead', 'accumulate_positive', 'radical_acceptance'],
+          panic: ['stop', 'tipp', 'opposite_action', 'radical_acceptance', 'self_soothe'],
+          dread: ['radical_acceptance', 'opposite_action', 'problem_solving', 'self_soothe', 'check_facts'],
         },
         high: {
           none: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
+          worry: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
+          panic: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
+          dread: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
         },
       },
       hypercontrol: {
@@ -195,12 +212,21 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
       impulsive: {
         low: {
           none: ['opposite_action', 'accumulate_positive', 'check_facts', 'problem_solving', 'build_mastery', 'wise_mind', 'effectively'],
+          melancholy: ['opposite_action', 'accumulate_positive', 'check_facts', 'wise_mind', 'effectively'],
+          hopelessness: ['check_facts', 'accumulate_positive', 'problem_solving', 'wise_mind', 'effectively'],
+          grief: ['radical_acceptance', 'opposite_action', 'accumulate_positive', 'wise_mind', 'effectively'],
         },
         medium: {
           none: ['opposite_action', 'accumulate_positive', 'cope_ahead', 'radical_acceptance', 'please'],
+          melancholy: ['opposite_action', 'accumulate_positive', 'cope_ahead', 'radical_acceptance'],
+          hopelessness: ['accumulate_positive', 'check_facts', 'problem_solving', 'radical_acceptance'],
+          grief: ['radical_acceptance', 'opposite_action', 'accumulate_positive', 'cope_ahead'],
         },
         high: {
           none: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
+          melancholy: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
+          hopelessness: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'accumulate_positive'],
+          grief: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'heart'],
         },
       },
       hypercontrol: {
@@ -232,12 +258,18 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
       impulsive: {
         low: {
           none: ['validate', 'check_facts', 'opposite_action', 'fast', 'wise_mind', 'effectively'],
+          humiliation: ['validate', 'check_facts', 'opposite_action', 'fast', 'wise_mind'],
+          embarrassment: ['opposite_action', 'validate', 'check_facts', 'fast', 'observe'],
         },
         medium: {
           none: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'nonjudgmental', 'pros_cons'],
+          humiliation: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'nonjudgmental', 'pros_cons'],
+          embarrassment: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'heart'],
         },
         high: {
           none: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
+          humiliation: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
+          embarrassment: ['stop', 'tipp', 'radical_acceptance', 'self_soothe'],
         },
       },
       hypercontrol: {
@@ -265,12 +297,18 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
       impulsive: {
         low: {
           none: ['problem_solving', 'check_facts', 'opposite_action', 'validate', 'dime_game', 'wise_mind', 'effectively'],
+          remorse: ['problem_solving', 'check_facts', 'opposite_action', 'validate', 'dime_game', 'wise_mind'],
+          regret: ['radical_acceptance', 'check_facts', 'opposite_action', 'problem_solving', 'validate'],
         },
         medium: {
           none: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'give', 'cope_ahead'],
+          remorse: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'give', 'cope_ahead'],
+          regret: ['radical_acceptance', 'opposite_action', 'heart', 'reveals'],
         },
         high: {
           none: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
+          remorse: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
+          regret: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'heart'],
         },
       },
       hypercontrol: {
@@ -298,12 +336,21 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
       impulsive: {
         low: {
           none: ['opposite_action', 'check_facts', 'problem_solving', 'wise_mind', 'describe', 'effectively'],
+          envy: ['opposite_action', 'check_facts', 'problem_solving', 'wise_mind', 'describe'],
+          jealousy: ['check_facts', 'opposite_action', 'problem_solving', 'wise_mind', 'validate'],
+          resentment: ['check_facts', 'opposite_action', 'problem_solving', 'validate', 'light'],
         },
         medium: {
           none: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'dear_man', 'cope_ahead'],
+          envy: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'dear_man', 'cope_ahead'],
+          jealousy: ['check_facts', 'opposite_action', 'radical_acceptance', 'accumulate_positive'],
+          resentment: ['light', 'opposite_action', 'radical_acceptance', 'heart'],
         },
         high: {
           none: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
+          envy: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
+          jealousy: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'loving_kindness'],
+          resentment: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'loving_kindness'],
         },
       },
       hypercontrol: {
@@ -335,12 +382,18 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
       impulsive: {
         low: {
           none: ['opposite_action', 'check_facts', 'dear_man', 'wise_mind', 'participate', 'effectively'],
+          disgust: ['opposite_action', 'check_facts', 'dear_man', 'wise_mind', 'participate'],
+          contempt: ['opposite_action', 'check_facts', 'dear_man', 'wise_mind', 'effectively'],
         },
         medium: {
           none: ['opposite_action', 'radical_acceptance', 'problem_solving', 'pros_cons'],
+          disgust: ['opposite_action', 'radical_acceptance', 'problem_solving', 'pros_cons'],
+          contempt: ['opposite_action', 'radical_acceptance', 'problem_solving', 'check_facts'],
         },
         high: {
           none: ['stop', 'tipp', 'accepts', 'radical_acceptance'],
+          disgust: ['stop', 'tipp', 'accepts', 'radical_acceptance'],
+          contempt: ['stop', 'tipp', 'accepts', 'radical_acceptance'],
         },
       },
       hypercontrol: {
