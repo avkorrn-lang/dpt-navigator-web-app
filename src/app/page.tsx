@@ -204,7 +204,6 @@ export default function Page() {
   const profileInfo = profile ? PROFILE_INFO[profile.profileType] : null;
   const emotionMeta = emotion ? EMOTION_MAP[emotion] : null;
 
-  // Обработчик выбора эмоции с автопрокруткой к блоку подтипов
   const handleEmotionSelect = (id: string) => {
     setEmotion(id);
     setSubtype(null);
@@ -496,10 +495,10 @@ export default function Page() {
               })}
             </div>
 
-            {/* Шаг 2. Подтипы — увеличенный отступ scroll-mt-20 (80px) */}
+            {/* Шаг 2. Подтипы */}
             <div
               ref={subtypeRef}
-              className="scroll-mt-25"
+              className="scroll-mt-20"
             >
               <AnimatePresence initial={false}>
                 {emotionMeta && (
@@ -596,7 +595,7 @@ export default function Page() {
 
               <p className="mt-4 text-[13px] leading-relaxed text-mist">{band.focus}</p>
 
-              {/* Кризисный переключатель */}
+              {/* Кризисный переключатель — укороченный текст */}
               <label
                 className={clsx(
                   'mt-5 flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-colors',
@@ -612,8 +611,7 @@ export default function Page() {
                 <span className="text-[13px] leading-relaxed">
                   <span className="font-bold">Появляются мысли о причинении себе вреда.</span>{' '}
                   <span className="text-mist">
-                    Отметьте — и навигатор поставит кризисные навыки первыми. Если мысли сильные,
-                    позвоните 112: безопасность важнее любых упражнений.
+                    Отметьте — и навигатор поставит кризисные навыки первыми.
                   </span>
                 </span>
               </label>
