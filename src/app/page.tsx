@@ -499,7 +499,7 @@ export default function Page() {
             {/* Шаг 2. Подтипы — увеличенный отступ scroll-mt-20 (80px) */}
             <div
               ref={subtypeRef}
-              className="scroll-mt-20"
+              className="scroll-mt-25"
             >
               <AnimatePresence initial={false}>
                 {emotionMeta && (
