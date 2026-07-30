@@ -42,11 +42,11 @@ export default function SkillCard({ skill, num, state, disabled, onToggle, onSav
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: Math.min(num, 7) * 0.05 }}
       className={clsx(
-        'overflow-hidden rounded-2xl border bg-card shadow-card transition-colors',
+        'flex flex-col h-full min-h-[180px] overflow-hidden rounded-2xl border bg-card shadow-card transition-colors',
         state.done ? 'border-pine/50 bg-pine-soft/60' : 'border-line',
       )}
     >
-      <div className="p-4 sm:p-5">
+      <div className="flex flex-col flex-1 p-4 sm:p-5">
         {/* Шапка карточки */}
         <div className="flex items-start gap-3.5">
           <span
@@ -58,8 +58,28 @@ export default function SkillCard({ skill, num, state, disabled, onToggle, onSav
             {state.done ? <Check size={16} strokeWidth={3} /> : num}
           </span>
           <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-              <h3 className="font-display text-[17px] leading-snug font-bold">{skill.name}</h3>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h3 className="font-display text-[17px] leading-snug font-bold sm:text-lg">
+                {skill.name}
+              </h3>
+              <button
+                type="button"
+                onClick={onToggle}
+                disabled={disabled}
+                aria-pressed={state.done}
+                className={clsx(
+                  'inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-xs font-bold transition-all active:scale-95 sm:px-3',
+                  state.done
+                    ? 'border-pine bg-pine text-white'
+                    : 'border-line-strong bg-card text-ink/70 hover:border-pine hover:text-pine-deep',
+                  disabled && 'opacity-50',
+                )}
+              >
+                <Check size={14} strokeWidth={3} />
+                <span className="hidden sm:inline">
+                  {state.done ? 'Выполнено' : 'Отметить'}
+                </span>
+              </button>
             </div>
             <div className="mt-1.5 flex flex-wrap gap-1.5">
               <span className="rounded-full border border-line bg-cream px-2 py-0.5 text-[11px] font-semibold text-mist">
@@ -75,26 +95,12 @@ export default function SkillCard({ skill, num, state, disabled, onToggle, onSav
               </span>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={onToggle}
-            disabled={disabled}
-            aria-pressed={state.done}
-            className={clsx(
-              'inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-bold transition-all active:scale-95',
-              state.done
-                ? 'border-pine bg-pine text-white'
-                : 'border-line-strong bg-card text-ink/70 hover:border-pine hover:text-pine-deep',
-              disabled && 'opacity-50',
-            )}
-          >
-            <Check size={14} strokeWidth={3} />
-            {state.done ? 'Выполнено' : 'Отметить'}
-          </button>
         </div>
 
         {/* Описание */}
-        <p className="mt-3 text-[13.5px] leading-relaxed text-ink/75">{skill.desc}</p>
+        <p className="mt-3 flex-1 text-[13px] leading-relaxed text-ink/75 sm:text-[13.5px]">
+          {skill.desc}
+        </p>
 
         {/* Действия */}
         <div className="mt-3.5 flex flex-wrap gap-2">
@@ -105,7 +111,8 @@ export default function SkillCard({ skill, num, state, disabled, onToggle, onSav
             className="inline-flex cursor-pointer items-center gap-1.5 rounded-full bg-ink/[0.05] px-3 py-1.5 text-xs font-bold text-ink/75 transition-colors hover:bg-ink/[0.09]"
           >
             <ListChecks size={14} strokeWidth={2.4} />
-            Как применять · {skill.steps.length} шага
+            <span className="hidden sm:inline">Как применять · {skill.steps.length} шага</span>
+            <span className="sm:hidden">{skill.steps.length}</span>
             <ChevronDown
               size={14}
               className={clsx('transition-transform duration-300', open && 'rotate-180')}
