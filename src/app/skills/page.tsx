@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpenText, ChevronDown, ListChecks, Search } from 'lucide-react';
+import { BookOpenText, ChevronDown, ListChecks, Search, X } from 'lucide-react';
 import clsx from 'clsx';
 import { MODULE_LABELS, SKILLS, TRACK_LABELS, type ModuleKey, type Skill, type TrackKey } from '@/lib/skills';
 
@@ -89,6 +89,14 @@ export default function SkillsPage() {
     });
   }, [all, query, module, track]);
 
+  const hasActiveFilters = module !== 'all' || track !== 'all' || query.trim() !== '';
+
+  const clearFilters = () => {
+    setQuery('');
+    setModule('all');
+    setTrack('all');
+  };
+
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
       <div className="max-w-2xl">
@@ -104,7 +112,7 @@ export default function SkillsPage() {
         </p>
       </div>
 
-      {/* Поиск */}
+      {/* Поиск с кнопкой очистки */}
       <div className="mt-7 flex items-center gap-2.5 rounded-full border border-line bg-card px-4 py-3 shadow-card">
         <Search size={17} className="shrink-0 text-mist" />
         <input
@@ -113,51 +121,76 @@ export default function SkillsPage() {
           placeholder="Поиск по названию или описанию…"
           className="w-full bg-transparent text-sm outline-none placeholder:text-mist/70"
         />
+        {query && (
+          <button
+            onClick={() => setQuery('')}
+            className="shrink-0 text-mist hover:text-ink"
+            aria-label="Очистить поиск"
+          >
+            <X size={16} />
+          </button>
+        )}
       </div>
 
-      {/* Фильтры */}
-      <div className="nice-scroll mt-4 flex gap-1.5 overflow-x-auto pb-1">
-        <button
-          onClick={() => setModule('all')}
-          className={clsx(
-            'shrink-0 cursor-pointer rounded-full border px-3.5 py-1.5 text-[12.5px] font-semibold transition-all',
-            module === 'all' ? 'border-ink bg-ink text-cream' : 'border-line bg-card text-ink/70',
-          )}
-        >
-          Все модули
-        </button>
-        {MODULE_ORDER.map((m) => (
+      {/* Фильтры + счётчик + кнопка сброса */}
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="nice-scroll flex flex-1 gap-1.5 overflow-x-auto pb-1">
           <button
-            key={m}
-            onClick={() => setModule(m)}
+            onClick={() => setModule('all')}
             className={clsx(
               'shrink-0 cursor-pointer rounded-full border px-3.5 py-1.5 text-[12.5px] font-semibold transition-all',
-              module === m ? 'border-ink bg-ink text-cream' : 'border-line bg-card text-ink/70',
+              module === 'all' ? 'border-ink bg-ink text-cream' : 'border-line bg-card text-ink/70',
             )}
           >
-            {MODULE_LABELS[m]}
+            Все модули
           </button>
-        ))}
-        <span className="mx-1 w-px shrink-0 bg-line-strong" />
-        {(['dbt', 'rodbt'] as TrackKey[]).map((t) => (
-          <button
-            key={t}
-            onClick={() => setTrack(track === t ? 'all' : t)}
-            className={clsx(
-              'shrink-0 cursor-pointer rounded-full border px-3.5 py-1.5 text-[12.5px] font-bold transition-all',
-              track === t
-                ? t === 'dbt'
-                  ? 'border-pine bg-pine text-white'
-                  : 'border-[#5c5da3] bg-[#5c5da3] text-white'
-                : 'border-line bg-card text-ink/70',
-            )}
-          >
-            {TRACK_LABELS[t]}
-          </button>
-        ))}
+          {MODULE_ORDER.map((m) => (
+            <button
+              key={m}
+              onClick={() => setModule(m)}
+              className={clsx(
+                'shrink-0 cursor-pointer rounded-full border px-3.5 py-1.5 text-[12.5px] font-semibold transition-all',
+                module === m ? 'border-ink bg-ink text-cream' : 'border-line bg-card text-ink/70',
+              )}
+            >
+              {MODULE_LABELS[m]}
+            </button>
+          ))}
+          <span className="mx-1 w-px shrink-0 bg-line-strong" />
+          {(['dbt', 'rodbt'] as TrackKey[]).map((t) => (
+            <button
+              key={t}
+              onClick={() => setTrack(track === t ? 'all' : t)}
+              className={clsx(
+                'shrink-0 cursor-pointer rounded-full border px-3.5 py-1.5 text-[12.5px] font-bold transition-all',
+                track === t
+                  ? t === 'dbt'
+                    ? 'border-pine bg-pine text-white'
+                    : 'border-[#5c5da3] bg-[#5c5da3] text-white'
+                  : 'border-line bg-card text-ink/70',
+              )}
+            >
+              {TRACK_LABELS[t]}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-3 shrink-0">
+          <span className="text-sm font-semibold text-mist">
+            Найдено: {filtered.length}
+          </span>
+          {hasActiveFilters && (
+            <button
+              onClick={clearFilters}
+              className="inline-flex items-center gap-1 rounded-full border border-line bg-card px-3 py-1.5 text-xs font-semibold text-ink/70 transition-colors hover:border-ink/40 hover:bg-cream"
+            >
+              <X size={14} /> Сбросить
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* Список */}
+      {/* Список навыков */}
       {filtered.length === 0 ? (
         <p className="mt-14 text-center text-sm font-semibold text-mist">
           Ничего не найдено — попробуйте другой запрос
