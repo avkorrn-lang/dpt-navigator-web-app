@@ -1,9 +1,3 @@
-// Расширенная матрица «эмоция × профиль × интенсивность» для ДПТ-навигатора.
-// ID навыков приведены к официальному справочнику (src/lib/skills.ts):
-//   validate_self / validate_other    -> validate (навык валидации себя и другого)
-//   social_connection                 -> loving_kindness (восстановление связи)
-//   interpersonal_effectiveness       -> dear_man (межличностная эффективность)
-
 import type { LucideIcon } from 'lucide-react';
 import {
   Flame,
@@ -22,13 +16,13 @@ export interface EmotionMeta {
   id: string;
   label: string;
   subtypes: { id: string; label: string }[];
-  color: string; // основной оттенок
-  soft: string; // светлый фон
+  color: string;
+  soft: string;
   icon: LucideIcon;
 }
 
 export interface EmotionMatrixEntry {
-  skills: Record<ProfileType, Record<IntensityLevel, string[]>>;
+  skills: Record<ProfileType, Record<IntensityLevel, Record<string, string[]>>>;
   subtype_notes: Record<string, string>;
 }
 
@@ -120,106 +114,145 @@ export const EMOTION_MAP: Record<string, EmotionMeta> = Object.fromEntries(
   EMOTIONS.map((e) => [e.id, e]),
 );
 
+// Новая матрица с разбивкой по подтипам (подтип 'none' для случаев без уточнения)
 export const MATRIX: Record<string, EmotionMatrixEntry> = {
   anger: {
     skills: {
       impulsive: {
-        // индивидуальные: opposite_action, check_facts, problem_solving; социальные: validate, dear_man
-        // + one_mindfully, dime_game (добавлены в конец)
-        low: ['opposite_action', 'check_facts', 'problem_solving', 'validate', 'dear_man'],
-        medium: ['stop', 'opposite_action', 'tipp', 'check_facts', 'radical_acceptance', 'one_mindfully', 'dime_game'],
-        high: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
+        low: {
+          none: ['check_facts', 'opposite_action', 'problem_solving', 'validate', 'dear_man', 'wise_mind', 'effectively', 'participate'],
+        },
+        medium: {
+          none: ['stop', 'opposite_action', 'check_facts', 'problem_solving', 'accumulate_positive', 'pros_cons'],
+        },
+        high: {
+          none: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
+        },
       },
       hypercontrol: {
-        // индивидуальные: opposite_action, check_facts, radical_openness, self_enquiry; социальные: give
-        // + effective_humility (добавлен в конец)
-        low: ['opposite_action', 'check_facts', 'radical_openness', 'self_enquiry', 'give', 'effective_humility'],
-        // индивидуальные: participate_without_planning, opposite_action, problem_solving, check_facts; социальные: validate
-        medium: ['participate_without_planning', 'opposite_action', 'problem_solving', 'check_facts', 'validate'],
-        // индивидуальные: stop, tipp, radical_acceptance, self_soothe; социальные: big_three_plus_1
-        high: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'big_three_plus_1'],
+        low: {
+          irritation: ['radical_openness', 'self_enquiry', 'check_facts', 'validate', 'validates', 'give', 'effectively'],
+          rage: ['radical_openness', 'self_enquiry', 'radical_acceptance', 'validate', 'validates', 'effective_humility'],
+          indignation: ['check_facts', 'radical_openness', 'self_enquiry', 'validate', 'validates', 'give', 'effectively'],
+        },
+        medium: {
+          irritation: ['radical_openness', 'self_enquiry', 'check_facts', 'problem_solving', 'validate'],
+          rage: ['radical_openness', 'self_enquiry', 'problem_solving', 'radical_acceptance', 'adopts'],
+          indignation: ['check_facts', 'radical_openness', 'self_enquiry', 'problem_solving', 'validate'],
+        },
+        high: {
+          irritation: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'big_three_plus_1'],
+          rage: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'big_three_plus_1'],
+          indignation: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'big_three_plus_1'],
+        },
       },
     },
     subtype_notes: {
-      irritation:
-        'Для импульсивного профиля — акцент на проверку фактов и решение проблем; для гиперконтроля — выражение раздражения через радикальную открытость.',
-      rage:
-        'Для импульсивного профиля — STOP и TIPP в первую очередь; для гиперконтроля — «большая тройка» и REVEALS для безопасного выражения.',
-      indignation:
-        'Схоже с гневом, но может включать моральное осуждение — важны проверка фактов и радикальное принятие различий.',
+      irritation: 'Для импульсивного профиля — акцент на проверку фактов и решение проблем; для гиперконтроля — выражение раздражения через радикальную открытость.',
+      rage: 'Для импульсивного профиля — STOP и TIPP в первую очередь; для гиперконтроля — «большая тройка» и REVEALS для безопасного выражения.',
+      indignation: 'Схоже с гневом, но может включать моральное осуждение — важны проверка фактов и радикальное принятие различий.',
     },
   },
   fear_anxiety: {
     skills: {
       impulsive: {
-        // индивидуальные: opposite_action, check_facts, cope_ahead, observe
-        // + build_mastery, describe (добавлены в конец)
-        low: ['opposite_action', 'check_facts', 'cope_ahead', 'observe', 'build_mastery', 'describe'],
-        // индивидуальные: opposite_action, tipp, cope_ahead, accepts, radical_acceptance
-        // + effectively (добавлен в конец)
-        medium: ['opposite_action', 'tipp', 'cope_ahead', 'accepts', 'radical_acceptance', 'effectively'],
-        high: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
+        low: {
+          none: ['opposite_action', 'check_facts', 'cope_ahead', 'observe', 'describe', 'wise_mind', 'effectively'],
+        },
+        medium: {
+          none: ['opposite_action', 'check_facts', 'cope_ahead', 'accumulate_positive', 'radical_acceptance', 'one_mindfully'],
+        },
+        high: {
+          none: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
+        },
       },
       hypercontrol: {
-        // индивидуальные: participate_without_planning, self_enquiry, check_facts, opposite_action
-        // + def, adopts (добавлены в конец)
-        low: ['participate_without_planning', 'self_enquiry', 'check_facts', 'opposite_action', 'def', 'adopts'],
-        // индивидуальные: opposite_action, problem_solving, validate, varies; социальные: big_three_plus_1
-        medium: ['opposite_action', 'problem_solving', 'validate', 'varies', 'big_three_plus_1'],
-        // индивидуальные: stop, tipp, radical_acceptance, self_soothe; социальные: (убрали loving_kindness)
-        high: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'varies'],
+        low: {
+          worry: ['radical_openness', 'self_enquiry', 'check_facts', 'opposite_action', 'def', 'nonjudgmental', 'validate', 'validates', 'participate_without_planning'],
+          panic: ['radical_openness', 'self_enquiry', 'radical_acceptance', 'self_soothe', 'willingness', 'validate', 'validates', 'participate_without_planning'],
+          dread: ['radical_acceptance', 'self_enquiry', 'opposite_action', 'check_facts', 'validate', 'validates', 'participate_without_planning'],
+        },
+        medium: {
+          worry: ['opposite_action', 'problem_solving', 'radical_openness', 'self_enquiry', 'varies', 'improve', 'participate_without_planning'],
+          panic: ['radical_openness', 'self_enquiry', 'radical_acceptance', 'self_soothe', 'improve', 'participate_without_planning'],
+          dread: ['radical_acceptance', 'opposite_action', 'problem_solving', 'validate', 'self_soothe', 'participate_without_planning'],
+        },
+        high: {
+          worry: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'varies'],
+          panic: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'big_three_plus_1'],
+          dread: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'big_three_plus_1'],
+        },
       },
     },
     subtype_notes: {
-      worry:
-        'Для гиперконтроля — практика «осознанности без планирования»; для импульсивного профиля — противоположное действие (сделать что-то вместо переживаний).',
-      panic:
-        'Для обоих профилей — TIPP (особенно дыхание и холод) и STOP. Для гиперконтроля — «большая тройка» для заземления.',
+      worry: 'Для гиперконтроля — практика «осознанности без планирования»; для импульсивного профиля — противоположное действие (сделать что-то вместо переживаний).',
+      panic: 'Для обоих профилей — TIPP (особенно дыхание и холод) и STOP. Для гиперконтроля — «большая тройка» для заземления.',
       dread: 'Акцент на радикальное принятие неизбежного и противоположное действие (подход к пугающему).',
     },
   },
   sadness: {
     skills: {
       impulsive: {
-        // индивидуальные: opposite_action, accumulate_positive, check_facts, problem_solving
-        // + participate (добавлен в конец)
-        low: ['opposite_action', 'accumulate_positive', 'check_facts', 'problem_solving', 'participate'],
-        medium: ['opposite_action', 'accumulate_positive', 'cope_ahead', 'radical_acceptance'],
-        high: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
+        low: {
+          none: ['opposite_action', 'accumulate_positive', 'check_facts', 'problem_solving', 'build_mastery', 'wise_mind', 'effectively'],
+        },
+        medium: {
+          none: ['opposite_action', 'accumulate_positive', 'cope_ahead', 'radical_acceptance', 'please'],
+        },
+        high: {
+          none: ['stop', 'tipp', 'accepts', 'self_soothe', 'radical_acceptance'],
+        },
       },
       hypercontrol: {
-        // индивидуальные: opposite_action, radical_openness, self_enquiry; социальные: validate
-        low: ['opposite_action', 'radical_openness', 'self_enquiry', 'validate'],
-        // индивидуальные: heart, light, opposite_action, radical_acceptance
-        medium: ['heart', 'light', 'opposite_action', 'radical_acceptance'],
-        // индивидуальные: opposite_action, radical_acceptance, self_soothe; социальные: allows, loving_kindness
-        // + improve (добавлен в конец)
-        high: ['opposite_action', 'radical_acceptance', 'self_soothe', 'allows', 'loving_kindness', 'improve'],
+        low: {
+          melancholy: ['opposite_action', 'radical_openness', 'self_enquiry', 'validate', 'validates', 'heart', 'effectively'],
+          hopelessness: ['check_facts', 'accumulate_positive', 'validate', 'validates', 'self_enquiry', 'build_mastery', 'effectively'],
+          grief: ['radical_acceptance', 'opposite_action', 'self_enquiry', 'validate', 'validates', 'willingness', 'effectively'],
+        },
+        medium: {
+          melancholy: ['heart', 'light', 'opposite_action', 'radical_acceptance', 'rocks_on'],
+          hopelessness: ['accumulate_positive', 'radical_acceptance', 'check_facts', 'validate', 'improve'],
+          grief: ['radical_acceptance', 'opposite_action', 'heart', 'light', 'match_plus_1'],
+        },
+        high: {
+          melancholy: ['stop', 'tipp', 'self_soothe', 'radical_acceptance', 'allows'],
+          hopelessness: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'accumulate_positive'],
+          grief: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'heart'],
+        },
       },
     },
     subtype_notes: {
-      melancholy:
-        'Для гиперконтроля — разрешить себе плакать и выражать эмоции; для импульсивного профиля — противоположное действие (активность).',
-      hopelessness:
-        'Добавьте накопление позитивных эмоций и проверку фактов: есть ли реальные основания для безнадежности?',
+      melancholy: 'Для гиперконтроля — разрешить себе плакать и выражать эмоции; для импульсивного профиля — противоположное действие (активность).',
+      hopelessness: 'Добавьте накопление позитивных эмоций и проверку фактов: есть ли реальные основания для безнадежности?',
       grief: 'Радикальное принятие утраты и противоположное действие (социальная связь) — важны для обоих профилей.',
     },
   },
   shame: {
     skills: {
       impulsive: {
-        // индивидуальные: validate, check_facts, opposite_action; социальные: fast
-        low: ['validate', 'check_facts', 'opposite_action', 'fast'],
-        medium: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'nonjudgmental'],
-        high: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
+        low: {
+          none: ['validate', 'check_facts', 'opposite_action', 'fast', 'wise_mind', 'effectively'],
+        },
+        medium: {
+          none: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'nonjudgmental', 'pros_cons'],
+        },
+        high: {
+          none: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
+        },
       },
       hypercontrol: {
-        // индивидуальные: sage, radical_openness, opposite_action; социальные: validate
-        low: ['sage', 'radical_openness', 'opposite_action', 'validate'],
-        // индивидуальные: loving_kindness, radical_acceptance, opposite_action, heart; социальные: rocks_on
-        medium: ['loving_kindness', 'radical_acceptance', 'opposite_action', 'heart', 'rocks_on'],
-        // индивидуальные: radical_acceptance, deep, big_three_plus_1; социальные: loving_kindness
-        high: ['radical_acceptance', 'deep', 'big_three_plus_1', 'loving_kindness'],
+        low: {
+          humiliation: ['sage', 'radical_openness', 'opposite_action', 'validate', 'validates', 'fast', 'effectively'],
+          embarrassment: ['opposite_action', 'validate', 'validates', 'check_facts', 'fast', 'observe', 'effectively'],
+        },
+        medium: {
+          humiliation: ['heart', 'radical_acceptance', 'opposite_action', 'sage'],
+          embarrassment: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'heart'],
+        },
+        high: {
+          humiliation: ['stop', 'tipp', 'self_soothe', 'radical_acceptance', 'deep'],
+          embarrassment: ['stop', 'tipp', 'radical_acceptance', 'self_soothe'],
+        },
       },
     },
     subtype_notes: {
@@ -230,19 +263,29 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
   guilt: {
     skills: {
       impulsive: {
-        // индивидуальные: problem_solving, check_facts, opposite_action; социальные: validate
-        // + please (добавлен в конец)
-        low: ['problem_solving', 'check_facts', 'opposite_action', 'validate', 'please'],
-        medium: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'give'],
-        high: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
+        low: {
+          none: ['problem_solving', 'check_facts', 'opposite_action', 'validate', 'dime_game', 'wise_mind', 'effectively'],
+        },
+        medium: {
+          none: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'give', 'cope_ahead'],
+        },
+        high: {
+          none: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
+        },
       },
       hypercontrol: {
-        // индивидуальные: prove, radical_openness, check_facts, problem_solving
-        low: ['prove', 'radical_openness', 'check_facts', 'problem_solving'],
-        // индивидуальные: heart, radical_acceptance, opposite_action; социальные: reveals
-        medium: ['heart', 'radical_acceptance', 'opposite_action', 'reveals'],
-        // индивидуальные: stop, tipp, radical_acceptance, self_soothe, heart; социальные: (убрали loving_kindness, dares)
-        high: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'heart'],
+        low: {
+          remorse: ['prove', 'radical_openness', 'check_facts', 'problem_solving', 'opposite_action', 'validate', 'validates', 'effectively'],
+          regret: ['radical_acceptance', 'check_facts', 'opposite_action', 'problem_solving', 'validate', 'validates', 'effectively'],
+        },
+        medium: {
+          remorse: ['heart', 'radical_acceptance', 'opposite_action', 'reveals'],
+          regret: ['radical_acceptance', 'opposite_action', 'heart', 'reveals'],
+        },
+        high: {
+          remorse: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'heart'],
+          regret: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'heart'],
+        },
       },
     },
     subtype_notes: {
@@ -253,24 +296,36 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
   envy_jealousy: {
     skills: {
       impulsive: {
-        // индивидуальные: opposite_action, check_facts, problem_solving, wise_mind
-        // + pros_cons (добавлен в конец)
-        low: ['opposite_action', 'check_facts', 'problem_solving', 'wise_mind', 'pros_cons'],
-        medium: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'dear_man'],
-        high: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
+        low: {
+          none: ['opposite_action', 'check_facts', 'problem_solving', 'wise_mind', 'describe', 'effectively'],
+        },
+        medium: {
+          none: ['opposite_action', 'radical_acceptance', 'accumulate_positive', 'dear_man', 'cope_ahead'],
+        },
+        high: {
+          none: ['stop', 'tipp', 'accepts', 'radical_acceptance', 'self_soothe'],
+        },
       },
       hypercontrol: {
-        // индивидуальные: dares, radical_openness, opposite_action; социальные: validate
-        low: ['dares', 'radical_openness', 'opposite_action', 'validate'],
-        // индивидуальные: light, opposite_action, radical_acceptance, heart; социальные: rocks_on
-        medium: ['light', 'opposite_action', 'radical_acceptance', 'heart', 'rocks_on'],
-        // индивидуальные: stop, tipp, radical_acceptance, self_soothe; социальные: loving_kindness
-        high: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'loving_kindness'],
+        low: {
+          envy: ['dares', 'radical_openness', 'opposite_action', 'validate', 'validates', 'check_facts', 'effectively'],
+          jealousy: ['check_facts', 'opposite_action', 'dares', 'radical_openness', 'validate', 'validates', 'effectively'],
+          resentment: ['light', 'radical_openness', 'self_enquiry', 'validate', 'validates', 'effectively'],
+        },
+        medium: {
+          envy: ['light', 'opposite_action', 'radical_acceptance', 'heart'],
+          jealousy: ['check_facts', 'opposite_action', 'radical_acceptance', 'light'],
+          resentment: ['light', 'opposite_action', 'radical_acceptance', 'heart'],
+        },
+        high: {
+          envy: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'loving_kindness'],
+          jealousy: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'loving_kindness'],
+          resentment: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'loving_kindness'],
+        },
       },
     },
     subtype_notes: {
-      envy:
-        'Для гиперконтроля — специальный навык DARES; для импульсивного профиля — противоположное действие (порадоваться за другого).',
+      envy: 'Для гиперконтроля — специальный навык DARES; для импульсивного профиля — противоположное действие (порадоваться за другого).',
       jealousy: 'Проверка фактов и радикальное принятие неопределённости.',
       resentment: 'Работа с горечью (LIGHT) и прощение (HEART) — для обоих профилей.',
     },
@@ -278,19 +333,29 @@ export const MATRIX: Record<string, EmotionMatrixEntry> = {
   disgust_contempt: {
     skills: {
       impulsive: {
-        // индивидуальные: opposite_action, check_facts; социальные: dear_man
-        // + willingness (добавлен в конец)
-        low: ['opposite_action', 'check_facts', 'dear_man', 'willingness'],
-        medium: ['opposite_action', 'radical_acceptance', 'problem_solving'],
-        high: ['stop', 'tipp', 'accepts', 'radical_acceptance'],
+        low: {
+          none: ['opposite_action', 'check_facts', 'dear_man', 'wise_mind', 'participate', 'effectively'],
+        },
+        medium: {
+          none: ['opposite_action', 'radical_acceptance', 'problem_solving', 'pros_cons'],
+        },
+        high: {
+          none: ['stop', 'tipp', 'accepts', 'radical_acceptance'],
+        },
       },
       hypercontrol: {
-        // индивидуальные: opposite_action, check_facts, radical_openness; социальные: validate
-        low: ['opposite_action', 'check_facts', 'radical_openness', 'validate'],
-        // индивидуальные: participate_without_planning, opposite_action, radical_acceptance, check_facts
-        medium: ['participate_without_planning', 'opposite_action', 'radical_acceptance', 'check_facts'],
-        // индивидуальные: stop, tipp, radical_acceptance, self_soothe; социальные: big_three_plus_1
-        high: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'big_three_plus_1'],
+        low: {
+          disgust: ['opposite_action', 'check_facts', 'radical_openness', 'validate', 'validates', 'effectively'],
+          contempt: ['opposite_action', 'check_facts', 'radical_openness', 'validate', 'validates', 'effectively'],
+        },
+        medium: {
+          disgust: ['radical_openness', 'self_enquiry', 'opposite_action', 'radical_acceptance'],
+          contempt: ['check_facts', 'opposite_action', 'radical_acceptance', 'radical_openness'],
+        },
+        high: {
+          disgust: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'big_three_plus_1'],
+          contempt: ['stop', 'tipp', 'radical_acceptance', 'self_soothe', 'big_three_plus_1'],
+        },
       },
     },
     subtype_notes: {
