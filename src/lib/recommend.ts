@@ -28,16 +28,24 @@ export function recommend(
 
   let ordered: string[] = [];
   if (entry) {
-    // Используем подтип, если он указан, иначе 'none'
-    const subtypeKey = subtypeId ?? 'none';
     const levelSkills = entry.skills[profile]?.[level];
-    if (levelSkills && levelSkills[subtypeKey]) {
-      ordered = [...levelSkills[subtypeKey]];
-    } else if (levelSkills && levelSkills['none']) {
-      // fallback на 'none', если для данного подтипа нет списка
-      ordered = [...levelSkills['none']];
-    } else {
-      ordered = [];
+    if (levelSkills) {
+      // Пытаемся найти список для конкретного подтипа
+      let skillsForSubtype: string[] | undefined;
+      if (subtypeId && levelSkills[subtypeId]) {
+        skillsForSubtype = levelSkills[subtypeId];
+      } else if (levelSkills['none']) {
+        skillsForSubtype = levelSkills['none'];
+      } else {
+        // Если нет ни подтипа, ни 'none', берём первый доступный подтип
+        const firstKey = Object.keys(levelSkills)[0];
+        if (firstKey) {
+          skillsForSubtype = levelSkills[firstKey];
+        }
+      }
+      if (skillsForSubtype) {
+        ordered = [...skillsForSubtype];
+      }
     }
   }
 
