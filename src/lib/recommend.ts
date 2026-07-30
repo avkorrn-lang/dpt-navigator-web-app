@@ -30,14 +30,13 @@ export function recommend(
   if (entry) {
     const levelSkills = entry.skills[profile]?.[level];
     if (levelSkills) {
-      // Пытаемся найти список для конкретного подтипа
       let skillsForSubtype: string[] | undefined;
       if (subtypeId && levelSkills[subtypeId]) {
         skillsForSubtype = levelSkills[subtypeId];
       } else if (levelSkills['none']) {
         skillsForSubtype = levelSkills['none'];
       } else {
-        // Если нет ни подтипа, ни 'none', берём первый доступный подтип
+        // Fallback: берём первый доступный подтип
         const firstKey = Object.keys(levelSkills)[0];
         if (firstKey) {
           skillsForSubtype = levelSkills[firstKey];
