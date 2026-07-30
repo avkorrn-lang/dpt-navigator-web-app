@@ -47,7 +47,7 @@ export default function SkillCard({ skill, num, state, disabled, onToggle, onSav
       )}
     >
       <div className="flex flex-col flex-1 p-4 sm:p-5">
-        {/* Шапка карточки — без кнопки */}
+        {/* Шапка карточки */}
         <div className="flex items-start gap-3.5">
           <span
             className={clsx(
@@ -58,21 +58,24 @@ export default function SkillCard({ skill, num, state, disabled, onToggle, onSav
             {state.done ? <Check size={16} strokeWidth={3} /> : num}
           </span>
           <div className="min-w-0 flex-1">
-            <h3 className="font-display text-[17px] leading-snug font-bold sm:text-lg">
-              {skill.name}
-            </h3>
-            <div className="mt-1.5 flex flex-wrap gap-1.5">
-              <span className="rounded-full border border-line bg-cream px-2 py-0.5 text-[11px] font-semibold text-mist">
-                {MODULE_LABELS[skill.module]}
-              </span>
-              <span
-                className={clsx(
-                  'rounded-full px-2 py-0.5 text-[11px] font-bold',
-                  skill.track === 'dbt' ? 'bg-pine-soft text-pine-deep' : 'bg-[#ecebf7] text-[#4e4f96]',
-                )}
-              >
-                {TRACK_LABELS[skill.track]}
-              </span>
+            {/* Название и теги в одну строку на десктопе */}
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <h3 className="font-display text-[17px] leading-snug font-bold sm:text-lg">
+                {skill.name}
+              </h3>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="rounded-full border border-line bg-cream px-2 py-0.5 text-[11px] font-semibold text-mist">
+                  {MODULE_LABELS[skill.module]}
+                </span>
+                <span
+                  className={clsx(
+                    'rounded-full px-2 py-0.5 text-[11px] font-bold',
+                    skill.track === 'dbt' ? 'bg-pine-soft text-pine-deep' : 'bg-[#ecebf7] text-[#4e4f96]',
+                  )}
+                >
+                  {TRACK_LABELS[skill.track]}
+                </span>
+              </div>
             </div>
           </div>
         </div>
