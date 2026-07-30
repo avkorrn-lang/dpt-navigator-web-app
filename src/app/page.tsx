@@ -73,7 +73,9 @@ export default function Page() {
   const [result, setResult] = useState<RecResult | null>(null);
   const [logs, setLogs] = useState<Record<string, SkillLogState>>({});
 
-  // Реф для прокрутки к блоку интенсивности
+  // Реф для блока подтипов (новый)
+  const subtypeRef = useRef<HTMLDivElement>(null);
+  // Реф для слайдера (оставляем, но прокручивать будем к подтипам)
   const intensityRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -203,13 +205,13 @@ export default function Page() {
   const profileInfo = profile ? PROFILE_INFO[profile.profileType] : null;
   const emotionMeta = emotion ? EMOTION_MAP[emotion] : null;
 
-  // Обработчик выбора эмоции с автопрокруткой
+  // Обработчик выбора эмоции с автопрокруткой к блоку подтипов
   const handleEmotionSelect = (id: string) => {
     setEmotion(id);
     setSubtype(null);
-    // Прокручиваем к блоку интенсивности через небольшой таймаут, чтобы DOM успел обновиться
+    // Прокручиваем к блоку подтипов через небольшой таймаут
     setTimeout(() => {
-      intensityRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      subtypeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
   };
 
@@ -496,56 +498,61 @@ export default function Page() {
               })}
             </div>
 
-            {/* Подтипы */}
-            <AnimatePresence initial={false}>
-              {emotionMeta && (
-                <motion.div
-                  key={emotionMeta.id}
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.28 }}
-                  className="overflow-hidden"
-                >
-                  <div className="mt-4 flex flex-wrap items-center gap-2">
-                    <span className="mr-1 text-xs font-bold tracking-wide text-mist uppercase">
-                      Оттенок:
-                    </span>
-                    <button
-                      onClick={() => setSubtype(null)}
-                      className={clsx(
-                        'cursor-pointer rounded-full border px-3.5 py-1.5 text-[13px] font-semibold transition-all active:scale-95',
-                        subtype === null
-                          ? 'border-ink bg-ink text-cream'
-                          : 'border-line bg-card text-ink/70 hover:border-line-strong',
-                      )}
-                    >
-                      Вся эмоция целиком
-                    </button>
-                    {emotionMeta.subtypes.map((s) => (
+            {/* Шаг 2. Подтипы — добавляем ref и отступ для прокрутки */}
+            <div
+              ref={subtypeRef}
+              className="scroll-mt-5"
+            >
+              <AnimatePresence initial={false}>
+                {emotionMeta && (
+                  <motion.div
+                    key={emotionMeta.id}
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.28 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-4 flex flex-wrap items-center gap-2">
+                      <span className="mr-1 text-xs font-bold tracking-wide text-mist uppercase">
+                        Оттенок:
+                      </span>
                       <button
-                        key={s.id}
-                        onClick={() => setSubtype(s.id)}
+                        onClick={() => setSubtype(null)}
                         className={clsx(
                           'cursor-pointer rounded-full border px-3.5 py-1.5 text-[13px] font-semibold transition-all active:scale-95',
-                          subtype === s.id
+                          subtype === null
                             ? 'border-ink bg-ink text-cream'
                             : 'border-line bg-card text-ink/70 hover:border-line-strong',
                         )}
                       >
-                        {s.label}
+                        Вся эмоция целиком
                       </button>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                      {emotionMeta.subtypes.map((s) => (
+                        <button
+                          key={s.id}
+                          onClick={() => setSubtype(s.id)}
+                          className={clsx(
+                            'cursor-pointer rounded-full border px-3.5 py-1.5 text-[13px] font-semibold transition-all active:scale-95',
+                            subtype === s.id
+                              ? 'border-ink bg-ink text-cream'
+                              : 'border-line bg-card text-ink/70 hover:border-line-strong',
+                          )}
+                        >
+                          {s.label}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
-            {/* Шаг 2. Интенсивность — добавлен scroll-mt-20 для отступа от хедера */}
+            {/* Шаг 3. Интенсивность — оставляем ref, но прокрутка теперь идёт к подтипам */}
             <div
               ref={intensityRef}
               className={clsx(
-                'mt-6 rounded-3xl border bg-card p-5 shadow-card transition-opacity sm:p-7 scroll-mt-25',
+                'mt-6 rounded-3xl border bg-card p-5 shadow-card transition-opacity sm:p-7',
                 !emotion && 'pointer-events-none opacity-50',
               )}
             >
