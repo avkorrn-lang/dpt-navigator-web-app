@@ -58,11 +58,13 @@ export default function SkillCard({ skill, num, state, disabled, onToggle, onSav
             {state.done ? <Check size={16} strokeWidth={3} /> : num}
           </span>
           <div className="min-w-0 flex-1">
-            {/* Название и теги в одну строку на десктопе */}
+            {/* Название с лёгкой плашкой на десктопе */}
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <h3 className="font-display text-[17px] leading-snug font-bold sm:text-lg">
-                {skill.name}
-              </h3>
+              <span className="inline-block sm:bg-[#ecebf7]/30 sm:px-2 sm:py-0.5 sm:rounded-lg">
+                <h3 className="font-display text-[17px] leading-snug font-bold sm:text-lg">
+                  {skill.name}
+                </h3>
+              </span>
               <div className="flex flex-wrap items-center gap-1.5">
                 <span className="rounded-full border border-line bg-cream px-2 py-0.5 text-[11px] font-semibold text-mist">
                   {MODULE_LABELS[skill.module]}
