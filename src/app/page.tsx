@@ -541,11 +541,11 @@ export default function Page() {
               )}
             </AnimatePresence>
 
-            {/* Шаг 2. Интенсивность — добавлен ref для прокрутки */}
+            {/* Шаг 2. Интенсивность — добавлен scroll-mt-20 для отступа от хедера */}
             <div
               ref={intensityRef}
               className={clsx(
-                'mt-6 rounded-3xl border bg-card p-5 shadow-card transition-opacity sm:p-7',
+                'mt-6 rounded-3xl border bg-card p-5 shadow-card transition-opacity sm:p-7 scroll-mt-20',
                 !emotion && 'pointer-events-none opacity-50',
               )}
             >
